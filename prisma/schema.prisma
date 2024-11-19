@@ -17,7 +17,7 @@ model Food {
   id          Int           @id @default(autoincrement()) @unique
   name        String
   description String
-  ingredients Ingredients[]
+  ingredients Int[]
   cost        String
 }
 
@@ -26,8 +26,6 @@ model Ingredients {
   name     String
   canAdd   Boolean  @default(false)
   foodType foodType @default(ALL)
-  Food     Food?    @relation(fields: [foodId], references: [id])
-  foodId   Int?
 }
 
 enum foodType {
