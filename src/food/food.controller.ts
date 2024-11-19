@@ -21,13 +21,13 @@ export class FoodController {
   }
 
   @Get()
-  findAll() {
-    return this.foodService.findAll();
+  getAll() {
+    return this.foodService.getAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.foodService.findOne(+id);
+  getById(@Param('id') id: string) {
+    return this.foodService.getById(+id);
   }
 
   @Patch(':id')
@@ -36,7 +36,7 @@ export class FoodController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.foodService.remove(+id);
+  delete(@Param('id') id: string) {
+    return this.foodService.delete(+id);
   }
 }
