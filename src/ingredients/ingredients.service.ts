@@ -9,11 +9,7 @@ export class IngredientsService {
 
   create(createIngredientDto: CreateIngredientDto) {
     const item = this.prisma.ingredients.create({
-      data: {
-        name: 'test ingr',
-        canAdd: false,
-        foodType: 'PIZZA',
-      },
+      data: createIngredientDto,
     });
 
     return item;
@@ -21,6 +17,18 @@ export class IngredientsService {
 
   findAll() {
     return this.prisma.ingredients.findMany();
+  }
+
+  async findManyByIds(ids: number[]) {
+    // console.log(ids)
+    const test = await this.prisma.ingredients.findMany({
+      where: {
+        id: { in: ids }
+      }
+    })
+
+    // console.log(test)
+    return test;
   }
 
   findOne(id: number) {
