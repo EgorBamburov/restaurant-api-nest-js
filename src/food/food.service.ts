@@ -2,11 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { IngredientsService } from "../ingredients/ingredients.service";
+import { IngredientsService } from '../ingredients/ingredients.service';
 
 @Injectable()
 export class FoodService {
-  constructor(private prisma: PrismaService, private ingredients: IngredientsService) {}
+  constructor(
+    private prisma: PrismaService,
+    private ingredients: IngredientsService,
+  ) {}
   create(createFoodDto: CreateFoodDto) {
     const ids = [1, 2];
     const item = this.prisma.food.create({
@@ -21,12 +24,14 @@ export class FoodService {
     return item;
   }
 
-   async findAll() {
+  async findAll() {
     const foodArr = await this.prisma.food.findMany();
 
-    for (let i in foodArr) {
-      const ingredients = await this.ingredients.findManyByIds(foodArr[i].ingredients)
-      foodArr[i].ingredients = ingredients as any[]
+    for (const i in foodArr) {
+      const ingredients = await this.ingredients.getManyByIds(
+        foodArr[i].ingredients,
+      );
+      foodArr[i].ingredients = ingredients as any[];
     }
 
     return foodArr;
