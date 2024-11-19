@@ -7,39 +7,46 @@ import { PrismaService } from '../prisma/prisma.service';
 export class IngredientsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createIngredientDto: CreateIngredientDto) {
-    const item = this.prisma.ingredients.create({
+  async create(createIngredientDto: CreateIngredientDto) {
+    return this.prisma.ingredients.create({
       data: createIngredientDto,
     });
-
-    return item;
   }
 
-  findAll() {
+  async getAll() {
     return this.prisma.ingredients.findMany();
   }
 
-  async findManyByIds(ids: number[]) {
-    // console.log(ids)
-    const test = await this.prisma.ingredients.findMany({
+  async getManyByIds(ids: number[]) {
+    return this.prisma.ingredients.findMany({
       where: {
-        id: { in: ids }
-      }
-    })
-
-    // console.log(test)
-    return test;
+        id: { in: ids },
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ingredient`;
+  async getById(id: number) {
+    return this.prisma.ingredients.findFirst({
+      where: {
+        id: id,
+      },
+    });
   }
 
-  update(id: number, updateIngredientDto: UpdateIngredientDto) {
-    return `This action updates a #${id} ingredient`;
+  async update(id: number, updateIngredientDto: UpdateIngredientDto) {
+    return this.prisma.ingredients.update({
+      where: {
+        id,
+      },
+      data: updateIngredientDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} ingredient`;
+  async delete(id: number) {
+    return this.prisma.ingredients.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { IsBoolean, IsString } from "class-validator";
+import { IsBoolean, IsString } from 'class-validator';
 
 export class CreateIngredientDto {
   @IsString()
@@ -10,8 +10,8 @@ export class CreateIngredientDto {
 }
 
 enum EFoodType {
-  PIZZA = "PIZZA",
-  PIZZA_ROLL = "PIZZA_ROLL",
-  SUSHI = "SUSHI",
-  ALL = "ALL"
+  PIZZA = 'PIZZA',
+  PIZZA_ROLL = 'PIZZA_ROLL',
+  SUSHI = 'SUSHI',
+  ALL = 'ALL',
 }

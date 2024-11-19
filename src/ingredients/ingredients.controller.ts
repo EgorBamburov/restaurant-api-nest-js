@@ -21,13 +21,13 @@ export class IngredientsController {
   }
 
   @Get()
-  findAll() {
-    return this.ingredientsService.findAll();
+  getAll() {
+    return this.ingredientsService.getAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ingredientsService.findOne(+id);
+  getById(@Param('id') id: string) {
+    return this.ingredientsService.getById(+id);
   }
 
   @Patch(':id')
@@ -39,7 +39,7 @@ export class IngredientsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ingredientsService.remove(+id);
+  delete(@Param('id') id: string) {
+    return this.ingredientsService.delete(+id);
   }
 }
