@@ -17,8 +17,8 @@ model Food {
   id          Int           @id @default(autoincrement()) @unique
   name        String
   description String
-  ingredients Int[]
   cost        String
+  ingredients Ingredients[]
 }
 
 model Ingredients {
@@ -26,6 +26,7 @@ model Ingredients {
   name     String
   canAdd   Boolean  @default(false)
   foodType foodType @default(ALL)
+  food     Food[]
 }
 
 enum foodType {

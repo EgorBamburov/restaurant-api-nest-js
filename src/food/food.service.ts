@@ -2,31 +2,27 @@ import { Injectable } from '@nestjs/common';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { IngredientsService } from '../ingredients/ingredients.service';
-import { TFood, TIngredient } from '../types';
 
 @Injectable()
 export class FoodService {
-  constructor(
-    private prisma: PrismaService,
-    private ingredients: IngredientsService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
   create(createFoodDto: CreateFoodDto) {
     return this.prisma.food.create({
-      data: createFoodDto,
+      data: {
+        ...createFoodDto.data,
+        ingredients: {
+          connect: createFoodDto.ingredients.map((id) => ({ id: id })),
+        },
+      },
     });
   }
 
   async getAll() {
-    const foodArr: TFood[] = await this.prisma.food.findMany();
-
-    for (const i in foodArr) {
-      foodArr[i].ingredients = (await this.ingredients.getManyByIds(
-        foodArr[i].ingredients as number[],
-      )) as TIngredient[];
-    }
-
-    return foodArr;
+    return this.prisma.food.findMany({
+      include: {
+        ingredients: true,
+      },
+    });
   }
 
   getById(id: number) {
@@ -40,7 +36,12 @@ export class FoodService {
       where: {
         id: id,
       },
-      data: updateFoodDto,
+      data: {
+        ...updateFoodDto.data,
+        ingredients: {
+          connect: updateFoodDto.ingredients.map((id) => ({ id: id })),
+        },
+      },
     });
   }
 
