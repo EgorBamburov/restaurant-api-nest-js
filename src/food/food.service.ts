@@ -3,6 +3,7 @@ import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { IngredientsService } from '../ingredients/ingredients.service';
+import { TFood, TIngredient } from '../types';
 
 @Injectable()
 export class FoodService {
@@ -11,47 +12,43 @@ export class FoodService {
     private ingredients: IngredientsService,
   ) {}
   create(createFoodDto: CreateFoodDto) {
-    const ids = [1, 2];
-    const item = this.prisma.food.create({
-      data: {
-        name: 'test',
-        description: 'test',
-        cost: '200',
-        ingredients: ids,
-      },
+    return this.prisma.food.create({
+      data: createFoodDto,
     });
-
-    return item;
   }
 
-  async findAll() {
-    const foodArr = await this.prisma.food.findMany();
+  async getAll() {
+    const foodArr: TFood[] = await this.prisma.food.findMany();
 
     for (const i in foodArr) {
-      const ingredients = await this.ingredients.getManyByIds(
-        foodArr[i].ingredients,
-      );
-      foodArr[i].ingredients = ingredients as any[];
+      foodArr[i].ingredients = (await this.ingredients.getManyByIds(
+        foodArr[i].ingredients as number[],
+      )) as TIngredient[];
     }
 
     return foodArr;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} food`;
+  getById(id: number) {
+    return this.prisma.food.findFirst({
+      where: { id: id },
+    });
   }
 
   update(id: number, updateFoodDto: UpdateFoodDto) {
-    return `This action updates a #${id} food`;
+    return this.prisma.food.update({
+      where: {
+        id: id,
+      },
+      data: updateFoodDto,
+    });
   }
 
-  async remove(id: number) {
-    await this.prisma.food.delete({
+  async delete(id: number) {
+    return this.prisma.food.delete({
       where: {
         id: id,
       },
     });
-
-    return `This action removes a #${id} food`;
   }
 }
