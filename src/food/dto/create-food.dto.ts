@@ -7,4 +7,5 @@ class FoodData {
   name: string;
   description: string;
   cost: string;
+  foodTypeId: number;
 }

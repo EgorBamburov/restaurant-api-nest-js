@@ -18,20 +18,24 @@ model Food {
   name        String
   description String
   cost        String
+  foodType    FoodType      @relation(fields: [foodTypeId], references: [id], onDelete: Cascade)
+  foodTypeId  Int
   ingredients Ingredients[]
 }
 
 model Ingredients {
-  id       Int      @id @default(autoincrement()) @unique
-  name     String
-  canAdd   Boolean  @default(false)
-  foodType foodType @default(ALL)
-  food     Food[]
+  id         Int      @id @default(autoincrement()) @unique
+  name       String
+  canAdd     Boolean  @default(false)
+  foodType   FoodType @relation(fields: [foodTypeId], references: [id], onDelete: Cascade)
+  foodTypeId Int
+  food       Food[]
 }
 
-enum foodType {
-  PIZZA
-  PIZZA_ROLL
-  SUSHI
-  ALL
+model FoodType {
+  id          Int           @id @default(autoincrement()) @unique
+  name        String
+  title       String
+  ingredients Ingredients[]
+  food        Food[]
 }
