@@ -8,7 +8,6 @@ export class FoodTypeService {
   constructor(private prisma: PrismaService) {
   }
   async create(dto: CreateFoodTypeDto) {
-    console.log(dto)
     return this.prisma.foodType.create({
       data: dto,
     });
@@ -45,11 +44,6 @@ export class FoodTypeService {
   }
 
   async remove(id: number) {
-    // return this.prisma.foodType.deleteMany({
-    //   where: {
-    //     id,
-    //   }
-    // })
     return this.prisma.foodType.delete({
       where: {
         id,

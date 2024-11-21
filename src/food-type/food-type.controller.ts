@@ -9,7 +9,6 @@ export class FoodTypeController {
 
   @Post()
   create(@Body() dto: CreateFoodTypeDto) {
-    console.log(dto)
     return this.foodTypeService.create(dto);
   }
 

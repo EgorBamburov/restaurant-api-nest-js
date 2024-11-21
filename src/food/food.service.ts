@@ -7,7 +7,6 @@ import { PrismaService } from '../prisma/prisma.service';
 export class FoodService {
   constructor(private prisma: PrismaService) {}
   create(dto: CreateFoodDto) {
-    console.log(dto)
     return this.prisma.food.create({
       data: {
         ...dto.data,
