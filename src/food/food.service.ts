@@ -6,12 +6,12 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class FoodService {
   constructor(private prisma: PrismaService) {}
-  create(createFoodDto: CreateFoodDto) {
+  create(dto: CreateFoodDto) {
     return this.prisma.food.create({
       data: {
-        ...createFoodDto.data,
+        ...dto.data,
         ingredients: {
-          connect: createFoodDto.ingredients.map((id) => ({ id: id })),
+          connect: dto.ingredients.map((id) => ({ id: id })),
         },
       },
     });

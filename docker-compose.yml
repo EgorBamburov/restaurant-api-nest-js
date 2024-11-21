@@ -35,6 +35,13 @@ services:
     restart: unless-stopped
     tty: true
     stdin_open: true
+  adminer_container:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres_container
+      ADMINER_DESIGN: galkaev
+    ports:
+      - 8080:8080
 
 volumes:
   pgdata:
